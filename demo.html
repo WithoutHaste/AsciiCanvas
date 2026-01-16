@@ -47,7 +47,7 @@ window.addEventListener('load', init);
 function init() {
 	displayColorKey(color_key);
 	displayAsciiArt(ascii_art);
-	const imgSrc = ascii_canvas.get_image(ascii_art, color_key);
+	const imgSrc = ascii_canvas.get_image(ascii_art, color_key, 3);
 	const imgElement = document.getElementById('img-output');
 	imgElement.src = imgSrc;
 }
@@ -87,6 +87,16 @@ const color_key = {
 };
 
 const ascii_art = `aaaaBBccccccccccBBaa
+aaaaBBccccccccccBBaa
+aaaaBBccccccccccBBaa
+aaaaBBccccccccccBBaa
+aaaaBBccccccccccBBaa
+aaaaBBccccccccccBBaa
+aaaaBBccccccccccBBaa
+aaaaBBccccccccccBBaa
+aaaaBBccccccccccBBaa
+aaaaBBccccccccccBBaa
+aaaaBBccccccccccBBaa
 aaaaBBccccccccccBBaa
 aaaaBBccccccccccBBaa
 aaaaBBccccccccccBBaa`;

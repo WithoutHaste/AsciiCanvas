@@ -1,8 +1,9 @@
 /*
 Methods available from this library:
-- ascii_canvas.get_image(string, associative_array)
+- ascii_canvas.get_image(string, associative_array, int)
   - param 1: the ascii art string
   - param 2: the color key, where array key is a char and array value is a hex or rgb or html color string
+  - param 3: the scale, optional, defaults to 1, how big to draw the image where 1=100%, 2=200% etc
   - returns an image source of the colored art, which can be set as an img element's 'src'
     - use: imgElement.src = result;
 	- OR use: divElement.style.backgroundImage = "url('" + result + "')";
@@ -15,16 +16,16 @@ const ascii_canvas = (function() {
 		return String.prototype.concat.call(...new Set(str));
 	}
 	
-	function generate_img_src(ascii_art, color_key) {
+	function generate_img_src(ascii_art, color_key, scale) {
 		const lines = ascii_art.split(char_line_break);
 		const canvas = document.createElement('canvas');
 		const context = canvas.getContext('2d');
-		canvas.setAttribute('width', lines[0].length);
-		canvas.setAttribute('height', lines.length);
+		canvas.setAttribute('width', lines[0].length * scale);
+		canvas.setAttribute('height', lines.length * scale);
 		for(var row=0; row<lines.length; row++) {
 			for(var col=0; col<lines[0].length; col++) {
 				context.fillStyle = color_key[lines[row][col]];
-				context.fillRect(col, row, 1, 1);
+				context.fillRect(col * scale, row * scale, scale, scale);
 			}
 		}
 		return canvas.toDataURL()
@@ -62,11 +63,25 @@ const ascii_canvas = (function() {
 		}
 	}
 	
+	function validate_scale(scale) {
+		if(scale == undefined) {
+			return 1;
+		}
+		if(!Number.isInteger(scale)) {
+			throw { message: 'Scale must be an integer.'};
+		}
+		if(scale < 1) {
+			throw { message: 'Scale cannot be less than 1.'};
+		}
+		return scale;
+	}
+	
 	return {
-		'get_image': function(ascii_art, color_key) {
+		'get_image': function(ascii_art, color_key, scale) {
 			validate_ascii_art(ascii_art);
 			validate_color_key(color_key, ascii_art);
-			return generate_img_src(ascii_art, color_key);
+			scale = validate_scale(scale);
+			return generate_img_src(ascii_art, color_key, scale);
 		}
 	};
 })();
