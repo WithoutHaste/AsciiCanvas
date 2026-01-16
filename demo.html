@@ -47,6 +47,9 @@ window.addEventListener('load', init);
 function init() {
 	displayColorKey(color_key);
 	displayAsciiArt(ascii_art);
+	const imgSrc = ascii_canvas.get_image(ascii_art, color_key);
+	const imgElement = document.getElementById('img-output');
+	imgElement.src = imgSrc;
 }
 
 function displayColorKey(colorKey) {
@@ -79,7 +82,7 @@ function displayAsciiArt(text) {
 
 const color_key = {
 	"a": "#000",
-	"b": "#444",
+	"B": "#444",
 	"c": "#ddd",
 };
 
