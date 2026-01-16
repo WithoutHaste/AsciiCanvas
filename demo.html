@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+	<header>
+		<title>
+			Ascii Canvas Demo
+		</title>
+		<script type='text/javascript' src='js/ascii_canvas.js'></script>
+		<style type='text/css'>
+			pre {
+				font-family: courier;
+			}
+			table {
+				border-collapse: collapse;
+			}
+			table.color-key td {
+				height: 2em;
+				min-width: 2em;
+				font-size: 16px;
+				font-family: courier;
+				text-align: center;
+			}
+		</style>
+	</header>
+	<body>
+		<h2>Ascii Canvas Demo</h2>
+		<div>
+			<b>Output Image</b><br/>
+			<img id='img-output' />
+		</div>
+		<br/>
+		<div>
+			<b>Input Color Key</b><br/>
+			<div id='color-key-display'>
+			</div>
+		</div>
+		<br/>
+		<div>
+			<b>Input Ascii Art</b><br/>
+			<div id='ascii-art-display'>
+			</div>
+		</div>
+	</body>
+</html>
+
+<script type='text/javascript'>
+window.addEventListener('load', init);
+
+function init() {
+	displayColorKey(color_key);
+	displayAsciiArt(ascii_art);
+}
+
+function displayColorKey(colorKey) {
+	const container = document.getElementById('color-key-display');
+	container.innerHTML = "";
+	const table = document.createElement('table');
+	table.classList.add('color-key');
+	const rowColor = document.createElement('tr');
+	const rowChar = document.createElement('tr');
+	for(var key of Object.keys(colorKey)) {
+		const cellColor = document.createElement('td');
+		cellColor.style.backgroundColor = colorKey[key];
+		rowColor.appendChild(cellColor);
+		const cellChar = document.createElement('td');
+		cellChar.innerHTML = key;
+		rowChar.appendChild(cellChar);
+	}
+	table.appendChild(rowColor);
+	table.appendChild(rowChar);
+	container.appendChild(table);
+}
+
+function displayAsciiArt(text) {
+	const container = document.getElementById('ascii-art-display');
+	container.innerHTML = "";
+	const preElement = document.createElement('pre');
+	preElement.innerHTML = text;
+	container.appendChild(preElement);
+}
+
+const color_key = {
+	"a": "#000",
+	"b": "#444",
+	"c": "#ddd",
+};
+
+const ascii_art = `aaaaBBccccccccccBBaa
+aaaaBBccccccccccBBaa
+aaaaBBccccccccccBBaa
+aaaaBBccccccccccBBaa`;
+</script>
